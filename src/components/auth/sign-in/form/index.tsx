@@ -1,71 +1,37 @@
-import React from 'react'
-import { Formik, Form } from 'formik'
-import { FormInput, FormCheckbox } from '@organism'
-import useTranslation from 'next-translate/useTranslation'
-import { Button, FlexBetweenHolder, Text } from '@atoms'
-import Link from 'next/link'
-import RightArrow from '@svg/right-arrow.svg'
-import { useLoginActions } from '../helpers/useActions'
+import React from "react";
+import { Formik, Form } from "formik";
+import { useLoginActions } from "../helpers/useActions";
+import { FormInput } from "@/ui/form-input";
+import { Button } from "@/ui/button";
 
 const initialValues = {
-  email: '',
-  password: '',
-  remember_me: false
-}
+  email: "",
+  password: "",
+};
 
 export default function SignInForm() {
-  const { t } = useTranslation('common')
-
-  const { onSubmit, saved_data, isLoading } = useLoginActions()
+  const { onSubmit, isLoading } = useLoginActions();
 
   return (
-    <Formik
-      initialValues={{ ...initialValues, ...saved_data }}
-      onSubmit={onSubmit}
-    >
-      <Form className="flex flex-col gap-5">
+    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+      <Form className="flex flex-col gap-[25px]">
         <FormInput
           name="email"
-          label={t('email')}
-          placeholder={t('user_name_or_email')}
+          label={"Email"}
+          placeholder={"example@email.com"}
+          required
         />
         <FormInput
-          name="password"
-          label={t('password')}
-          placeholder={t('password')}
           type="password"
+          name="password"
+          label={"Password"}
+          placeholder={"*************"}
+          required
         />
-
-        <FlexBetweenHolder>
-          <div className="lg:!w-1/4 w-[150px]">
-            <FormCheckbox
-              name="remember_me"
-              label={t('remember_me')}
-              className="[&>span>span]:lg:!text-[14px] [&>span>span]:!text-[12px]"
-            />
-          </div>
-
-          <Link
-            href="#"
-            className="!text-primary-400 font-bold text-[14px]  block"
-          >
-            {t('forget_pass')}
-          </Link>
-        </FlexBetweenHolder>
-
-        <Button
-          fullWidth
-          type="submit"
-          bg="primary"
-          isLoading={isLoading}
-          className="flex items-center justify-center gap-3 !h-[56px]"
-        >
-          <Text color="white" weight="semibold">
-            {t('sign_in')}
-          </Text>
-          <RightArrow stroke="#fff" />
+        <Button className="text-lg font-semibold !bg-primary-100 !text-white !rounded-xl">
+          Log in
         </Button>
       </Form>
     </Formik>
-  )
+  );
 }
