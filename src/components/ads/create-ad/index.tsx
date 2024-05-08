@@ -2,19 +2,26 @@ import { Text } from "@/ui/text";
 import React, { useState } from "react";
 import Stepper from "./stepper";
 import { Form, Formik } from "formik";
-import { useCreateAdActions } from "./helpers/use-step-validation";
 import AdStepOne from "./step-1";
 import AdStepTwo from "./step-2";
 import { Button } from "@/ui/button";
 import { Stack } from "@chakra-ui/react";
-import { useCreateAdFormikHelpers } from "./helpers/use-formik-helpers";
+import { useStepValidation } from "./helpers/useStepValidation";
+import { AdInitialValues } from "./helpers/types";
 
 type Props = {};
 
-export default function CreateAd({}: Props) {
-  const [activeStep, setActiveStep] = useState<1 | 2 | 3>(2);
+const initialValues: AdInitialValues = {
+  images: [],
+  mark: null,
+  model: null,
+  year: null,
+};
 
-  const { initialValues, validationSchema } = useCreateAdFormikHelpers();
+export default function CreateAd({}: Props) {
+  const [activeStep, setActiveStep] = useState<1 | 2 | 3>(1);
+
+  const { onNext } = useStepValidation(activeStep, setActiveStep);
 
   return (
     <div className="max-w-[1025px] mx-auto">
@@ -32,33 +39,36 @@ export default function CreateAd({}: Props) {
 
       {/* Ad Creation Form  */}
       <Formik initialValues={initialValues} onSubmit={() => {}}>
-        <Form>
-          {[1, 3].includes(activeStep) ? <AdStepOne /> : ""}
+        {({ values }) => (
+          <Form>
+            {[1, 3].includes(activeStep) ? <AdStepOne /> : ""}
 
-          {[2, 3].includes(activeStep) ? <AdStepTwo /> : ""}
+            {[2, 3].includes(activeStep) ? <AdStepTwo /> : ""}
 
-          <Stack
-            alignItems="center"
-            justifyContent={"center"}
-            direction={"row"}
-            spacing={4}
-          >
-            {activeStep !== 1 && (
-              <Button
-                variant="outline"
-                className="font-medium text-lg md:w-[233px] h-[52px] !rounded-lg"
-              >
-                Previous
-              </Button>
-            )}
-            <Button
-              variant="solid"
-              className="font-medium text-lg !bg-primary-100 !text-white md:w-[233px] h-[52px] !rounded-lg"
+            <Stack
+              alignItems="center"
+              justifyContent={"center"}
+              direction={"row"}
+              spacing={4}
             >
-              {activeStep !== 3 ? "Next" : "Submit"}
-            </Button>
-          </Stack>
-        </Form>
+              {activeStep !== 1 && (
+                <Button
+                  variant="outline"
+                  className="font-medium text-lg md:w-[233px] h-[52px] !rounded-lg"
+                >
+                  Previous
+                </Button>
+              )}
+              <Button
+                variant="solid"
+                className="font-medium text-lg !bg-primary-100 !text-white md:w-[233px] h-[52px] !rounded-lg"
+                onClick={() => onNext(values)}
+              >
+                {activeStep !== 3 ? "Next" : "Submit"}
+              </Button>
+            </Stack>
+          </Form>
+        )}
       </Formik>
     </div>
   );

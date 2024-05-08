@@ -1,7 +1,7 @@
-import { Button as ChakraButton } from "@chakra-ui/react";
+import { ButtonProps, Button as ChakraButton } from "@chakra-ui/react";
 import React from "react";
 
-interface Props {
+interface Props extends ButtonProps {
   children: React.ReactNode;
   className?: string;
   variant?: "solid" | "outline";

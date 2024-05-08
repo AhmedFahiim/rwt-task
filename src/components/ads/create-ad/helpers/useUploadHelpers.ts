@@ -34,10 +34,10 @@ const useUploadHelpers = (
   };
 
   const onUploadImage = (image: Blob) => {
-    if (fromBytesToMega(image.size) > maxImageSize) {
+    if (fromBytesToMega(image?.size) > maxImageSize) {
       return toast({
         title: `Sorry! The max size of the image is 2MB and your image size is ${Math.round(
-          fromBytesToMega(image.size)
+          fromBytesToMega(image?.size)
         )}MB`,
         status: "error",
         isClosable: true,

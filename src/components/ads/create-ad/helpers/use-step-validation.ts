@@ -1,3 +1,0 @@
-const useCreateAdActions = () => {};
-
-export { useCreateAdActions };

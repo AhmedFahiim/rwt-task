@@ -6,7 +6,7 @@ import { Text } from "@/ui/text";
 import { useFormikContext } from "formik";
 import Image from "next/image";
 import clsx from "clsx";
-import { useUploadHelpers } from "./useUploadHelpers";
+import { useUploadHelpers } from "../helpers/useUploadHelpers";
 
 type Props = {};
 
