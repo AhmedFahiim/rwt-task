@@ -1,16 +1,14 @@
 import React from "react";
 import { ErrorMessage, Field, FieldProps } from "formik";
 import clsx from "clsx";
-import { Select } from "@chakra-ui/react";
+import { Select, SelectProps } from "@chakra-ui/react";
 
-interface SelectProps {
-  name: string;
+interface Props extends SelectProps {
   label: string;
-  required?: boolean;
-  placeholder: string;
+  name: string;
   options: { value: string; label: string }[];
+  required?: boolean;
   wrapperClassName?: string;
-  error?: boolean;
 }
 
 export function FormSelect({
@@ -20,9 +18,8 @@ export function FormSelect({
   options,
   required,
   wrapperClassName,
-  error,
   ...props
-}: SelectProps & Partial<FieldProps>) {
+}: Props & Partial<FieldProps>) {
   return (
     <Field name={name}>
       {({
@@ -31,20 +28,27 @@ export function FormSelect({
       }: FieldProps) => {
         return (
           <div className={clsx("w-full", wrapperClassName)}>
+            <label htmlFor={name} className="block text-xl mb-2">
+              {label} {required && <span className="text-danger-100">*</span>}
+            </label>
+
             <Select
-              // options={options}
               {...props}
               {...field}
-              value={values?.[name]}
-              // label={label}
               name={name}
               required={required}
+              value={values[name as string]}
               placeholder={placeholder}
-              // error={Boolean(Boolean(touched[name]) && errors[name]) || error}
-              onChange={(e: any) => setFieldValue(name, e.target.value)}
-            />
-            <div className="text-red-500 text-sm text-start mt-1">
-              <ErrorMessage name={name} />
+              onChange={(e: any) =>
+                setFieldValue(name as string, e.target.value)
+              }
+            >
+              {options.map((option) => (
+                <option key={option.value}>{option.label}</option>
+              ))}
+            </Select>
+            <div className="text-danger-100 text-sm text-start mt-1">
+              <ErrorMessage name={name as string} />
             </div>
           </div>
         );

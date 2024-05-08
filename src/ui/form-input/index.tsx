@@ -1,11 +1,17 @@
 import React from "react";
 import { Field, FieldProps, ErrorMessage } from "formik";
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import {
+  Input,
+  InputGroup,
+  InputProps,
+  InputRightElement,
+} from "@chakra-ui/react";
 import ShowPassword from "@/svg/show-password.svg";
 import HidePassword from "@/svg/hide-password.svg";
 
-interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+interface Props extends InputProps {
   label?: string;
+  required?: boolean;
   wrapperClassName?: string;
 }
 

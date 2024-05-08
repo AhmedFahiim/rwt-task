@@ -7,7 +7,7 @@ import MainLayout from "providers/layout";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <SessionProvider session={pageProps.session}>
-      <ChakraProvider>
+      <ChakraProvider toastOptions={{ defaultOptions: { position: "bottom" } }}>
         <MainLayout>
           <Component {...pageProps} />
         </MainLayout>
