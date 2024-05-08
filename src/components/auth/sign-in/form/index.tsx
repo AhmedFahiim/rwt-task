@@ -27,12 +27,12 @@ export default function SignInForm() {
           type="password"
           name="password"
           label={"Password"}
-          placeholder={"*************"}
+          placeholder={"Enter your password"}
           required
         />
         <Button
           type="submit"
-          className="text-lg font-semibold !bg-primary-100 !text-white !rounded-xl"
+          className="text-lg font-semibold !bg-primary-100 !text-white !rounded-xl !h-[47px]"
         >
           Log in
         </Button>

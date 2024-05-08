@@ -23,14 +23,14 @@ export default function AdStepTwo({}: Props) {
       {/* upload box */}
       <button
         className={clsx(
-          "grid place-items-center bg-[#F0F0F0] border-[1px] border-primary-200 border-dashed rounded-md col-span-12 py-5 sm:py-0",
+          "grid place-items-center bg-[#F0F0F0] border-[1px] border-dark-400 border-dashed rounded-md col-span-12 py-5 sm:py-0",
           { "col-span-12 md:col-span-6": values.images?.length > 0 }
         )}
         onClick={onClickToUpload}
       >
         <Stack alignItems="center" spacing={2}>
           <Upload />
-          <Text fontSize="lg" className="!text-primary-200 block">
+          <Text fontSize="lg" className="!text-dark-400 block">
             Drag files to upload
           </Text>
         </Stack>

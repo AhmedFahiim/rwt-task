@@ -13,13 +13,14 @@ const config: Config = {
       colors: {
         primary: {
           100: "#2196F3",
-          200: "#666",
         },
-        typo: {
+        dark: {
           100: "#000",
           200: "#1F1F1F",
           300: "#B0B0B0",
+          400: "#666",
         },
+
         danger: {
           100: "#FF3D00",
         },

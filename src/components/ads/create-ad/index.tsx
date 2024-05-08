@@ -24,7 +24,7 @@ export default function CreateAd({}: Props) {
     count: 3,
   });
 
-  const { errors, onNext, onPrevious } = useStepValidation(
+  const { errors, stepOneValidation, onNext, onPrevious } = useStepValidation(
     activeStep,
     setActiveStep
   );
@@ -51,7 +51,14 @@ export default function CreateAd({}: Props) {
               setStep={setActiveStep}
             />
             <div className={activeStep === 3 ? "pointer-events-none" : ""}>
-              {[1, 3].includes(activeStep) ? <AdStepOne errors={errors} /> : ""}
+              {[1, 3].includes(activeStep) ? (
+                <AdStepOne
+                  errors={errors}
+                  stepOneValidation={stepOneValidation}
+                />
+              ) : (
+                ""
+              )}
 
               {[2, 3].includes(activeStep) ? <AdStepTwo /> : ""}
             </div>
@@ -65,7 +72,7 @@ export default function CreateAd({}: Props) {
               {activeStep !== 1 && (
                 <Button
                   variant="outline"
-                  className="font-medium text-lg  md:w-[233px] w-[150px] h-[52px] !rounded-lg"
+                  className="font-medium text-lg  md:w-[233px] w-[150px] !h-[52px] !rounded-lg"
                   onClick={onPrevious}
                 >
                   Previous
@@ -73,7 +80,7 @@ export default function CreateAd({}: Props) {
               )}
               <Button
                 variant="solid"
-                className="font-medium text-lg !bg-primary-100 !text-white md:w-[233px] w-[150px] h-[52px] !rounded-lg"
+                className="font-medium text-lg !bg-primary-100 !text-white md:w-[233px] w-[150px] !h-[52px] !rounded-lg"
                 onClick={() => onNext(values)}
               >
                 {activeStep !== 3 ? "Next" : "Submit"}

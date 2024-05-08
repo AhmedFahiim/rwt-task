@@ -23,13 +23,16 @@ const useStepValidation = (
     year: Yup.string().required("You can't procced without selecting a year"),
   });
 
-  const stepOneValidation = async (values: AdInitialValues) => {
+  const stepOneValidation = async (
+    values: AdInitialValues,
+    updateStep = false
+  ) => {
     try {
       await validationSchema.validateSync(values, {
         abortEarly: false,
       });
 
-      setStep(2);
+      updateStep && setStep(2);
 
       setErrors([]);
     } catch (error: any) {
@@ -58,7 +61,7 @@ const useStepValidation = (
   /*   On next step   */
   /* ------------------ */
   const onNext = (values: AdInitialValues) => {
-    if (step === 1) stepOneValidation(values);
+    if (step === 1) stepOneValidation(values, true);
 
     if (step === 2) stepTwoValidation(values.images);
   };
@@ -68,6 +71,6 @@ const useStepValidation = (
   /* ------------------ */
   const onPrevious = () => setStep((prev) => prev - 1);
 
-  return { onNext, onPrevious, errors };
+  return { onNext, onPrevious, stepOneValidation, errors };
 };
 export { useStepValidation };

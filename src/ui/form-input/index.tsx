@@ -35,7 +35,7 @@ export function FormInput({
       {({ field, form: { errors, touched, setFieldValue } }: FieldProps) => {
         return (
           <FormControl className={wrapperClassName} isRequired={required}>
-            <FormLabel>{label}</FormLabel>
+            <FormLabel className="!text-sm text-black">{label}</FormLabel>
             <InputGroup>
               <Input
                 {...props}
@@ -45,7 +45,7 @@ export function FormInput({
                   "!border-danger-100": Boolean(
                     Boolean(touched[name as string]) && errors[name as string]
                   ),
-                  "!border-typo-300": !Boolean(
+                  "!border-dark-300": !Boolean(
                     Boolean(touched[name as string]) && errors[name as string]
                   ),
                 })}

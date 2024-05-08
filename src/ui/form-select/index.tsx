@@ -33,7 +33,7 @@ export function FormSelect({
             className={clsx("w-full", wrapperClassName)}
             isRequired={required}
           >
-            <FormLabel>{label}</FormLabel>
+            <FormLabel className="text-dark-200">{label}</FormLabel>
 
             <Select
               {...props}
@@ -45,7 +45,7 @@ export function FormSelect({
               className={
                 Boolean(Boolean(touched[name]) && errors[name]) || error
                   ? "!border-danger-100"
-                  : "!border-primary-200"
+                  : "!border-dark-400"
               }
               onChange={(e: any) =>
                 setFieldValue(name as string, e.target.value)
