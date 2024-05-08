@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { DefaultSession, NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const nextOptions: NextAuthOptions = {
@@ -13,7 +13,9 @@ const nextOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {},
-      async authorize(credentials): Promise<any> {
+      async authorize(
+        credentials
+      ): Promise<null | { id: string; name: string; email: string }> {
         const { email, password } = credentials as {
           email: string;
           password: string;
@@ -22,12 +24,11 @@ const nextOptions: NextAuthOptions = {
         // Check if the user entered true credentials
         if (email === "royal_group@gmail.com" && password === "123456") {
           return {
-            id: 1,
+            id: "1",
             name: "Ahmed Fahiim",
             email: "royal-group@gmail.com",
           };
         }
-
         return null;
       },
     }),
@@ -43,10 +44,11 @@ const nextOptions: NextAuthOptions = {
 
       return token;
     },
-    async session({ token, user }): Promise<any> {
+    async session({ token, user }): Promise<DefaultSession> {
       return {
         ...token,
         user,
+        expires: new Date(Math.floor(Date.now() / 1000) + 3600).toISOString(),
       };
     },
   },
