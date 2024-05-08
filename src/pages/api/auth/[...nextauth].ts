@@ -20,7 +20,7 @@ const nextOptions: NextAuthOptions = {
         };
 
         // Check if the user entered true credentials
-        if (email === "royal-group@gmail.com" && password === "123456") {
+        if (email === "royal_group@gmail.com" && password === "123456") {
           return {
             id: 1,
             name: "Ahmed Fahiim",

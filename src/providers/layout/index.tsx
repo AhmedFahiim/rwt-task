@@ -1,8 +1,7 @@
 import { Text } from "@/ui/text";
 import { Stack } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import React from "react";
-import { onLogout } from "utils/onLogout";
 
 interface Props {
   children: React.ReactNode;
@@ -26,7 +25,7 @@ export default function MainLayout({ children }: Props) {
               {userSession?.name} |
             </Text>
             <button
-              onClick={onLogout}
+              onClick={() => signOut()}
               className="text-white text-xl font-semobild"
             >
               Log Out
