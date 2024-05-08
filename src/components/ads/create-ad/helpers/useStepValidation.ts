@@ -4,8 +4,8 @@ import { AdInitialValues } from "./types";
 import { useToast } from "@chakra-ui/react";
 
 const useStepValidation = (
-  step: 1 | 2 | 3,
-  setStep: React.Dispatch<React.SetStateAction<1 | 2 | 3>>
+  step: number,
+  setStep: React.Dispatch<React.SetStateAction<number>>
 ) => {
   const toast = useToast();
 
@@ -13,10 +13,12 @@ const useStepValidation = (
   /*   Check the first step validation  */
   /* ---------------------------------- */
 
-  const [errors, setErrors] = useState();
+  const [errors, setErrors] = useState<{ name: string; error: string }[] | []>(
+    []
+  );
 
   const validationSchema = Yup.object({
-    mark: Yup.string().required("You can't procced without selecting a mark"),
+    make: Yup.string().required("You can't procced without selecting a make"),
     model: Yup.string().required("You can't procced without selecting a model"),
     year: Yup.string().required("You can't procced without selecting a year"),
   });
@@ -28,6 +30,8 @@ const useStepValidation = (
       });
 
       setStep(2);
+
+      setErrors([]);
     } catch (error: any) {
       const erros = error.inner.map((err: any) => ({
         name: err.path,
@@ -38,27 +42,32 @@ const useStepValidation = (
     }
   };
 
+  const stepTwoValidation = (images: Blob[]) => {
+    if (images.length !== 0) {
+      setStep(3);
+    } else {
+      toast({
+        title: "Please Upload at least one image",
+        status: "error",
+        isClosable: true,
+      });
+    }
+  };
+
   /* ------------------ */
   /*   On next step   */
   /* ------------------ */
   const onNext = (values: AdInitialValues) => {
     if (step === 1) stepOneValidation(values);
 
-    if (step === 2) {
-      if (values.images.length !== 0) {
-        setStep(3);
-      } else {
-        toast({
-          title: "Please Upload atleast one image",
-          status: "error",
-          isClosable: true,
-        });
-      }
-    }
-
-    return { errors, stepOneValidation };
+    if (step === 2) stepTwoValidation(values.images);
   };
 
-  return { onNext };
+  /* ------------------ */
+  /*   On previous step   */
+  /* ------------------ */
+  const onPrevious = () => setStep((prev) => prev - 1);
+
+  return { onNext, onPrevious, errors };
 };
 export { useStepValidation };

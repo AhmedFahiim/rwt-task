@@ -7,9 +7,14 @@ interface Props extends ButtonProps {
   variant?: "solid" | "outline";
 }
 
-export function Button({ children, className, variant = "solid" }: Props) {
+export function Button({
+  children,
+  className,
+  variant = "solid",
+  ...props
+}: Props) {
   return (
-    <ChakraButton variant={variant} className={className}>
+    <ChakraButton variant={variant} className={className} {...props}>
       {children}
     </ChakraButton>
   );

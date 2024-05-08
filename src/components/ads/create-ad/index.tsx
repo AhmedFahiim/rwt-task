@@ -5,7 +5,7 @@ import { Form, Formik } from "formik";
 import AdStepOne from "./step-1";
 import AdStepTwo from "./step-2";
 import { Button } from "@/ui/button";
-import { Stack } from "@chakra-ui/react";
+import { Stack, useSteps } from "@chakra-ui/react";
 import { useStepValidation } from "./helpers/useStepValidation";
 import { AdInitialValues } from "./helpers/types";
 
@@ -13,15 +13,21 @@ type Props = {};
 
 const initialValues: AdInitialValues = {
   images: [],
-  mark: null,
+  make: null,
   model: null,
   year: null,
 };
 
 export default function CreateAd({}: Props) {
-  const [activeStep, setActiveStep] = useState<1 | 2 | 3>(1);
+  const { activeStep, setActiveStep } = useSteps({
+    index: 1,
+    count: 3,
+  });
 
-  const { onNext } = useStepValidation(activeStep, setActiveStep);
+  const { errors, onNext, onPrevious } = useStepValidation(
+    activeStep,
+    setActiveStep
+  );
 
   return (
     <div className="max-w-[1025px] mx-auto">
@@ -34,14 +40,17 @@ export default function CreateAd({}: Props) {
         Post Your Ad
       </Text>
 
-      {/* stepper */}
-      <Stepper />
-
       {/* Ad Creation Form  */}
       <Formik initialValues={initialValues} onSubmit={() => {}}>
         {({ values }) => (
           <Form>
-            {[1, 3].includes(activeStep) ? <AdStepOne /> : ""}
+            {/* stepper */}
+            <Stepper
+              activeStep={activeStep}
+              onNext={onNext}
+              setStep={setActiveStep}
+            />
+            {[1, 3].includes(activeStep) ? <AdStepOne errors={errors} /> : ""}
 
             {[2, 3].includes(activeStep) ? <AdStepTwo /> : ""}
 
@@ -55,6 +64,7 @@ export default function CreateAd({}: Props) {
                 <Button
                   variant="outline"
                   className="font-medium text-lg md:w-[233px] h-[52px] !rounded-lg"
+                  onClick={onPrevious}
                 >
                   Previous
                 </Button>

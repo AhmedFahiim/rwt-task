@@ -7,6 +7,7 @@ interface Props extends SelectProps {
   label: string;
   name: string;
   options: { value: string; label: string }[];
+  error?: boolean;
   required?: boolean;
   wrapperClassName?: string;
 }
@@ -17,6 +18,7 @@ export function FormSelect({
   name,
   options,
   required,
+  error,
   wrapperClassName,
   ...props
 }: Props & Partial<FieldProps>) {
@@ -24,7 +26,7 @@ export function FormSelect({
     <Field name={name}>
       {({
         field,
-        form: { values, setFieldValue, errors, touched },
+        form: { values, touched, errors, setFieldValue },
       }: FieldProps) => {
         return (
           <div className={clsx("w-full", wrapperClassName)}>
@@ -39,6 +41,11 @@ export function FormSelect({
               required={required}
               value={values[name as string]}
               placeholder={placeholder}
+              className={
+                Boolean(Boolean(touched[name]) && errors[name]) || error
+                  ? "!border-danger-100"
+                  : "!border-primary-200"
+              }
               onChange={(e: any) =>
                 setFieldValue(name as string, e.target.value)
               }
