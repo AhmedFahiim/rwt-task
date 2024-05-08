@@ -26,7 +26,7 @@ const nextOptions: NextAuthOptions = {
           return {
             id: "1",
             name: "Ahmed Fahiim",
-            email: "royal-group@gmail.com",
+            email: "royal_group@gmail.com",
           };
         }
         return null;
