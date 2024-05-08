@@ -44,7 +44,9 @@ const useUploadHelpers = (
       });
     }
 
-    setFieldValue("images", [...values.images, image]);
+    if (image) {
+      setFieldValue("images", [...values.images, image]);
+    }
   };
 
   const onDeleteImage = (index: number) => {

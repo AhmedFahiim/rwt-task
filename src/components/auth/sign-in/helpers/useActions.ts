@@ -1,13 +1,16 @@
-import { getSession, signIn } from "next-auth/react";
+import { useToast } from "@chakra-ui/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 const useLoginActions = () => {
   const { replace } = useRouter();
 
+  const toast = useToast();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: { email: string; password: string }) => {
     setIsLoading(true);
 
     try {
@@ -16,34 +19,20 @@ const useLoginActions = () => {
         redirect: false,
       });
 
-      const session: any = await getSession();
-
-      if (session) {
-        const redirectPortal =
-          (await session?.user?.user_type_text) === "company"
-            ? "business"
-            : (await session?.user?.user_type_text) === "student"
-            ? "learner"
-            : await session?.user?.user_type_text;
-
-        void replace(`/${redirectPortal}/dashboard`);
-      }
+      if (data?.status === 200) void replace("/ads/create-ad");
 
       if (data?.status === 401) {
+        return toast({
+          title:
+            "Oops! It seems like you've entered incorrect credentials. Please double-check your email and password and try again",
+          status: "error",
+          isClosable: true,
+        });
       }
     } catch (error) {}
 
     setIsLoading(false);
   };
-
-  // get user data from storage if it saved before
-  // useEffect(() => {
-  //   const rememberdUser = sessionStorage.getItem('saved_user')
-
-  //   if (rememberdUser) {
-  //     setSavedData(JSON.parse(rememberdUser))
-  //   }
-  // })
 
   return { onSubmit, isLoading };
 };

@@ -30,7 +30,7 @@ export default function CreateAd({}: Props) {
   );
 
   return (
-    <div className="max-w-[1025px] mx-auto">
+    <div className="max-w-[1025px] mx-auto py-6 md:py-0">
       <Text
         as="h1"
         fontSize="34px"
@@ -43,16 +43,18 @@ export default function CreateAd({}: Props) {
       {/* Ad Creation Form  */}
       <Formik initialValues={initialValues} onSubmit={() => {}}>
         {({ values }) => (
-          <Form>
+          <Form className="px-5 md:px-0">
             {/* stepper */}
             <Stepper
               activeStep={activeStep}
               onNext={onNext}
               setStep={setActiveStep}
             />
-            {[1, 3].includes(activeStep) ? <AdStepOne errors={errors} /> : ""}
+            <div className={activeStep === 3 ? "pointer-events-none" : ""}>
+              {[1, 3].includes(activeStep) ? <AdStepOne errors={errors} /> : ""}
 
-            {[2, 3].includes(activeStep) ? <AdStepTwo /> : ""}
+              {[2, 3].includes(activeStep) ? <AdStepTwo /> : ""}
+            </div>
 
             <Stack
               alignItems="center"
@@ -63,7 +65,7 @@ export default function CreateAd({}: Props) {
               {activeStep !== 1 && (
                 <Button
                   variant="outline"
-                  className="font-medium text-lg md:w-[233px] h-[52px] !rounded-lg"
+                  className="font-medium text-lg  md:w-[233px] w-[150px] h-[52px] !rounded-lg"
                   onClick={onPrevious}
                 >
                   Previous
@@ -71,7 +73,7 @@ export default function CreateAd({}: Props) {
               )}
               <Button
                 variant="solid"
-                className="font-medium text-lg !bg-primary-100 !text-white md:w-[233px] h-[52px] !rounded-lg"
+                className="font-medium text-lg !bg-primary-100 !text-white md:w-[233px] w-[150px] h-[52px] !rounded-lg"
                 onClick={() => onNext(values)}
               >
                 {activeStep !== 3 ? "Next" : "Submit"}

@@ -3,17 +3,19 @@ import { Formik, Form } from "formik";
 import { useLoginActions } from "../helpers/useActions";
 import { FormInput } from "@/ui/form-input";
 import { Button } from "@/ui/button";
-
-const initialValues = {
-  email: "",
-  password: "",
-};
+import { useLoginFormikHelpers } from "../helpers/useFormikHelpers";
 
 export default function SignInForm() {
   const { onSubmit, isLoading } = useLoginActions();
 
+  const { validationSchema, initialValues } = useLoginFormikHelpers();
+
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
       <Form className="flex flex-col gap-[25px]">
         <FormInput
           name="email"
@@ -28,7 +30,10 @@ export default function SignInForm() {
           placeholder={"*************"}
           required
         />
-        <Button className="text-lg font-semibold !bg-primary-100 !text-white !rounded-xl">
+        <Button
+          type="submit"
+          className="text-lg font-semibold !bg-primary-100 !text-white !rounded-xl"
+        >
           Log in
         </Button>
       </Form>

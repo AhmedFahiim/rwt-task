@@ -6,48 +6,49 @@ const nextOptions: NextAuthOptions = {
 
   session: {
     strategy: "jwt",
+    maxAge: 3600,
   },
 
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {},
-      async authorize(credentials, req) {
-        const { email, password } = credentials;
+      async authorize(credentials): Promise<any> {
+        const { email, password } = credentials as {
+          email: string;
+          password: string;
+        };
 
-        const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/login`;
-
-        try {
-          // const { data: user } = await axios.post(url, { email, password })
-
-          const user = {};
-
-          if (user) {
-            return user.data;
-          }
-
-          return null;
-        } catch (error: any) {
-          console.log("error >>>> ", error);
+        // Check if the user entered true credentials
+        if (email === "royal-group@gmail.com" && password === "123456") {
+          return {
+            id: 1,
+            name: "Ahmed Fahiim",
+            email: "royal-group@gmail.com",
+          };
         }
+
+        return null;
       },
     }),
   ],
 
   callbacks: {
     async jwt({ token, user }) {
-      return { ...token, ...user } as any;
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+      }
+
+      return token;
     },
-    async session({ token }): Promise<any> {
+    async session({ token, user }): Promise<any> {
       return {
-        user: token.user,
-        token: token.token,
+        ...token,
+        user,
       };
     },
-  },
-
-  pages: {
-    signIn: "/auth/sign-in",
   },
 };
 

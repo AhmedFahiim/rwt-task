@@ -13,7 +13,7 @@ export default function AdStepOne({ errors }: Props) {
   ];
 
   return (
-    <Card className="!grid sm:grid-cols-2 gap-x-20 gap-y-[43px] md:mt-[87px] md:mb-[66px] shadow-[0px_0px_10px_2px_rgba(0, 0, 0, 0.10)] rounded-xl bg-white md:py-[42px] md:px-12">
+    <Card className="!grid sm:grid-cols-2 gap-x-20 gap-y-[43px] md:mt-[87px] md:mb-[66px] my-10 md:py-[42px] md:px-12 p-4 shadow-[0px_0px_10px_2px_rgba(0, 0, 0, 0.10)] rounded-xl bg-white">
       <div>
         <FormSelect
           name="make"

@@ -1,7 +1,7 @@
 import React from "react";
 import { ErrorMessage, Field, FieldProps } from "formik";
 import clsx from "clsx";
-import { Select, SelectProps } from "@chakra-ui/react";
+import { FormControl, FormLabel, Select, SelectProps } from "@chakra-ui/react";
 
 interface Props extends SelectProps {
   label: string;
@@ -29,10 +29,11 @@ export function FormSelect({
         form: { values, touched, errors, setFieldValue },
       }: FieldProps) => {
         return (
-          <div className={clsx("w-full", wrapperClassName)}>
-            <label htmlFor={name} className="block text-xl mb-2">
-              {label} {required && <span className="text-danger-100">*</span>}
-            </label>
+          <FormControl
+            className={clsx("w-full", wrapperClassName)}
+            isRequired={required}
+          >
+            <FormLabel>{label}</FormLabel>
 
             <Select
               {...props}
@@ -57,7 +58,7 @@ export function FormSelect({
             <div className="text-danger-100 text-sm text-start mt-1">
               <ErrorMessage name={name as string} />
             </div>
-          </div>
+          </FormControl>
         );
       }}
     </Field>

@@ -1,13 +1,9 @@
-import { As, Text as Typo } from "@chakra-ui/react";
+import { As, TextProps, Text as Typo } from "@chakra-ui/react";
 import React from "react";
 
-interface Props {
+interface Props extends TextProps {
   children: React.ReactNode;
   className?: string;
-  fontSize?: string;
-  fontWeight?: string;
-  color?: string;
-  as?: As;
 }
 
 export function Text({
@@ -17,6 +13,7 @@ export function Text({
   fontWeight = "400",
   color = "#000",
   as = "span",
+  ...props
 }: Props) {
   return (
     <Typo
@@ -25,6 +22,7 @@ export function Text({
       fontWeight={fontWeight}
       color={color}
       className={className}
+      {...props}
     >
       {children}
     </Typo>

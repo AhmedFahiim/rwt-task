@@ -1,4 +1,5 @@
-import clsx from "clsx";
+import { Text } from "@/ui/text";
+import { Stack } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import React from "react";
 import { onLogout } from "utils/onLogout";
@@ -12,18 +13,25 @@ export default function MainLayout({ children }: Props) {
   return (
     <main>
       <header
-        className={clsx(
-          "bg-primary-100 md:px-[103px] md:pt-[46px] md:pb-[45px]",
-          { session: "flex justify-end" }
-        )}
+        className={"bg-primary-100 lg:px-[103px] lg:pt-[46px] lg:pb-[45px] p-5"}
       >
         {userSession && (
-          <button
-            onClick={onLogout}
-            className="text-white text-xl font-semobild"
+          <Stack
+            justifyContent="end"
+            alignItems="center"
+            direction="row"
+            spacing={3}
           >
-            Log Out
-          </button>
+            <Text color="white" fontSize={"medium"}>
+              {userSession?.name} |
+            </Text>
+            <button
+              onClick={onLogout}
+              className="text-white text-xl font-semobild"
+            >
+              Log Out
+            </button>
+          </Stack>
         )}
       </header>
 

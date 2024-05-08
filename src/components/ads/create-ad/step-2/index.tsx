@@ -11,18 +11,20 @@ import { useUploadHelpers } from "../helpers/useUploadHelpers";
 type Props = {};
 
 export default function AdStepTwo({}: Props) {
-  const { values, setFieldValue } = useFormikContext<{ images: Blob[] }>();
+  const { values, setFieldValue } = useFormikContext<{
+    images: TExtendedBlob[];
+  }>();
 
   const { inputRef, onClickToUpload, onDeleteImage, onUploadImage } =
     useUploadHelpers(values, setFieldValue);
 
   return (
-    <Card className="h-[347px] !grid grid-cols-12 gap-7 md:my-[66px] md:py-[31px] md:ps-6 md:pe-[31px] !rounded-xl">
+    <Card className="sm:h-[347px] !grid grid-cols-12 gap-7 md:my-[66px] my-10 md:py-[31px] md:ps-6 md:pe-[31px] p-4 !rounded-xl">
       {/* upload box */}
       <button
         className={clsx(
-          "grid place-items-center h-full bg-[#F0F0F0] border-[1px] border-primary-200 border-dashed rounded-md col-span-12",
-          { "col-span-6": values.images?.length > 0 }
+          "grid place-items-center bg-[#F0F0F0] border-[1px] border-primary-200 border-dashed rounded-md col-span-12 py-5 sm:py-0",
+          { "col-span-12 md:col-span-6": values.images?.length > 0 }
         )}
         onClick={onClickToUpload}
       >
@@ -36,33 +38,36 @@ export default function AdStepTwo({}: Props) {
 
       {/* uploaded images */}
       {values.images?.length > 0 && (
-        <Stack spacing={5} className="sm:col-span-6 col-span-12">
-          {values.images?.map((image, index: number) => (
-            <Stack
-              key={index}
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              className="bg-[#F3F3F3] rounded-lg pe-2"
-            >
-              <Stack direction="row" alignItems="center">
-                <a href={URL.createObjectURL(image)} target="_blank">
-                  <Image
-                    src={URL.createObjectURL(image)}
-                    width={40}
-                    height={40}
-                    className="rounded !w-10 !h-10"
-                    alt="Ad Image"
-                  />
-                </a>
+        <Stack spacing={5} className="md:col-span-6 col-span-12 overflow-auto">
+          {values.images?.map(
+            (image, index: number) =>
+              Boolean(image) && (
+                <Stack
+                  key={index}
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  className="bg-[#F3F3F3] rounded-lg pe-2"
+                >
+                  <Stack direction="row" alignItems="center">
+                    <a href={URL.createObjectURL(image) || ""} target="_blank">
+                      <Image
+                        src={URL.createObjectURL(image)}
+                        width={40}
+                        height={40}
+                        className="rounded !w-10 !h-10"
+                        alt="Ad Image"
+                      />
+                    </a>
 
-                <Text>{image.name}</Text>
-              </Stack>
-              <button onClick={() => onDeleteImage(index)}>
-                <Delete className="size-5" />
-              </button>
-            </Stack>
-          ))}
+                    <Text>{image.name}</Text>
+                  </Stack>
+                  <button onClick={() => onDeleteImage(index)}>
+                    <Delete className="size-5" />
+                  </button>
+                </Stack>
+              )
+          )}
         </Stack>
       )}
 
